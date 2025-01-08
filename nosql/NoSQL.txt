@@ -1,0 +1,167 @@
+# NoSQL in case sensitive
+
+1) Connection string path ( Mongo shell will requirer to execute the query)
+Run the exe file from path C:\Program Files\Mongo\mongosh-2.3.7-win32-x64\mongosh-2.3.7-win32-x64\bin\mongosh.exe 
+mongodb://localhost:27017
+
+2) How to start and stop the mongo query, so we need to start the server first
+start	: net start mongoDB
+stop		: next stop mongoDB 
+
+=====================================================================================================================================================
+CRUD operation
+
+CREATE
+insertOne(data,options)
+insertMany(data,options)
+
+READ
+find(filter,options)
+findOne(filter,options)
+
+UPDATE
+updateOne(filter,data,options)
+updateMany(filter,data,options)
+replaceOne(filter,data,options)
+
+DELETE
+deleteOne(filter,options)
+deleteMany(filter,options)
+=====================================================================================================================================================
+READ
+To read the data using forEach function
+db.employess.find().forEach((x)=>printjson(x))
+
+To find the single document
+db.employess.findOne({name:"Jagdish"})
+
+To find many
+db.employess.find({name:"Jagdish"})
+
+Find less than
+db.employess.find({age:{$lt:22}})
+
+Find less than equal to
+db.employess.find({age:{$lte:22}})
+
+Or Operation
+db.employess.find({age:{$lte:22, $lte:45}}).count()
+
+
+=====================================================================================================================================================
+CREATE
+To add single data
+db.insertOne({name:"Jagdish Kamadi"})
+
+To add multimple data
+db.employess.insertMany([{name:"Madhur",age:"34"},
+						{name:"Dinesh",age:"45"}])
+
+=====================================================================================================================================================
+UPDATE
+To update the single record
+db.employess.updateOne({name:"Khushi"},{$set:{age:21}})
+
+To update the many record
+db.employess.updateMany({name:"Khushi"},{$set:{age:21}})
+
+To update the many record based on filter
+db.employess.updateMany({name:"Khushi"},{$set:{age:21}})
+
+=====================================================================================================================================================
+DELETE
+To delete the one record
+db.employess.deleteOne({name:"Khushi Kamadi",age:45})
+
+To delete the many record
+db.employess.deleteMany({name:"Khushi Kamadi",age:45})
+
+=====================================================================================================================================================
+How to create the database?
+use <database_name>
+
+Show all database name
+show dbs
+
+Delete db
+db.dropDatabase()
+
+Show collection
+show collections
+
+Delete collection
+db.<collection_name>.drop()
+
+How to create the new collection
+db.createCollection("<collection_name>")
+
+How to insert the record in that collection
+db.<collection_name>.insertOne("{<Pass the in JSON format>}")
+
+How to find the all document in collection
+db.<collection_name>.find()
+
+How to find the one document in collection
+db.<collection_name>.find({<Pass the in JSON format>})
+
+# Queries for nasted document
+How to update the document
+db.<collection_name>.updateOne({<Pass the key and value to update>},{$set:{<Pass the key and value which to update>}})
+
+To find the count of document
+db.<collection_name>.find({<Pass key & value JSON format}).count()
+
+How to update many record
+db.<collection_name>.updateMany({},{$set:{<Pass the key and value which to update>}})
+
+Search in nestet document
+db.employess.find({"address.at":"chennai"}) -- direct example
+
+How to select particular field
+db.employess.find({},{name:1}) // by default _id is inclusive
+db.employess.find({},{name:1,_id:0})
+
+Insert the new complext record
+db.amazon_employee.insertOne({name:"Jagdish Kamadi",age:24,address:[{at:"Pawani",dist:"Wardha"}],foundedOn: new Date(),foundedOnTimestamp:new Timestamp()})
+
+How to check the datatype of field
+typeof db.amazon_employee.findOne().name
+
+How to use second argument of insertOne/insertMany
+db.sample.insertMany([{_id:'CC',name:"CC",age:12},{_id:"A",name:"D",age:13},{_id:"E",name:"E",age:14}],{ordered:false})
+
+How to insert the data from file to mongodb
+1) Install the mongoDB command line tool and set the path
+2) Then run the below command 
+=> mongoimport "<file_path>" -d <db_name> -c <collection_name> --jsonArray --drop
+
+=====================================================================================================================================================
+VALIDATION Example
+
+db.createCollection(
+  'validator_table',
+  {
+    validator: {
+      $jsonSchema: {
+        required: ['name', 'price'],
+        properties: {
+          name: {
+            bsonType: 'string',
+            description: 'must be a string and is required'
+          },
+          price: {
+            bsonType: 'number',
+            description: 'must be a number and is required'
+          }
+        }
+      }
+    },
+    validationLevel: 'strict',
+    validationAction: 'error'
+  }
+);
+
+=====================================================================================================================================================
+=====================================================================================================================================================
+
+=====================================================================================================================================================

@@ -1,0 +1,8 @@
+## Start with Confluent Kafka
+
+# To start the zookeeper
+Open the terminal in windows directory(C:\Software\kafka\bin\windows) then run the below command
+zookeeper-server-start.bat ..\..\etc\kafka\zookeeper.properties
+
+# To start apache kafka server
+kafka-server-start.bat ..\..\config\server.properties
