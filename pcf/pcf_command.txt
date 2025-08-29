@@ -1,0 +1,74 @@
+#Version check
+cf --version
+
+#login
+cf login
+
+#login using Web-browser
+cf login --sso
+
+#To see the current target
+cf target
+
+#To see the spaces
+cf spaces
+
+#To see the orginaztion
+cf orgs
+
+#To check the latest logs of failure deployment
+cf logs <app_name> --recent
+
+# First time push
+cf push simple-rest-api-2 -p target/simple-rest-api-2
+
+#Push the application(mention the manifest file in code itself)
+cf push
+
+#To see the apps information
+cf apps
+
+#To stop the app
+cf stop <app_name>
+
+#To start the app
+cf start <app_name>
+
+#To restart the app
+cf restart <app_name>
+
+#To delete the app
+cf delete <app_name>
+
+#To check the logs
+cf logs <app_name>
+
+#To see the routes
+cf routes
+
+#Map the app to different routes(exsting will be also there)
+cf map-route <app_name> <domain_name> --hostname <new_host_name>
+
+#To create the manifest file using cmd
+cf create-app-manifest <app_name>
+
+#To see the droplets list
+cf droplets <app_name>
+
+#To set env variable after that restart/restage the service
+cf set-env <app_name> <env_variable_name> <value>
+
+#To scale the instances
+cf scale <app_name> -i <scale_size>
+
+#You can change the org and space you are using by
+cf target -o <THE_ORG> -s <THE_SPACE>
+
+#To  create the space   
+cf create-space SPACE_NAME -o <ORG_NAME>
+
+#To assing the uniquer route to application
+cf <app_name> --random-route
+
+#To delete the spaces
+cf delete-space <space_name> -o <ORG_NAME> -f
