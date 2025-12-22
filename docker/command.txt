@@ -18,14 +18,19 @@ docker container prune
 
 #To delete the container once it stopped
 docker run --rm -it <image name>
-------------------------------------------------------------------------------------------------------------------------------------------
+
+#Copy a jar file into the container
+docker container cp target/<jar_name.jar> <container_name>
+Example
+docker container cp target/hello-world-rest-api.jar naughty_knuth:/tmp
+--------------------------------------------------------------------------------------------------------------------------------
 How to make the image first using the spring boot app
 1) create the spring boot app
 2) create the docker file
 3) create the docker image : docker build -t <image name> . // . means where the Docker file located
 4) run your docker image  : docker run -p <port on which to run:existing port> <image name>
 
-------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------
 How to push the image to docker hub
 1) First we need to assign the tag
 docker tag <image name> <repository name : tag name>
@@ -35,8 +40,8 @@ docker tag spring-boot-app jagdishkamadi00/my-first-repository:spring-boot-app
 2) Push the image
 docker push jagdishkamadi00/my-first-repository:spring-boot-app
 
-------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------
 ERROR: push access denied, repository does not exist or may require authorization: server message: insufficient_scope: authorization failed
 steps to solve this issue
 link: https://www.youtube.com/watch?v=iIYw0Z0AI1c
-------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------------------------

@@ -1,74 +1,202 @@
-#Version check
+# =========================================================
+# Cloud Foundry (PCF) CLI – COMPLETE Command Reference File
+# =========================================================
+# NOTE:
+# - No original command has been removed
+# - Additional BASIC & COMMON commands are added
+# - All descriptions start with #
+# - Safe to use as reference or script template
+# =========================================================
+
+
+# ------------------------
+# VERSION, API & HELP
+# ------------------------
+
+# Check Cloud Foundry CLI version
 cf --version
 
-#login
+# Set / view the Cloud Foundry API endpoint (ADDED – basic)
+cf api
+cf api <api_endpoint>
+
+# Get help for a specific operation
+cf help <operation_type>
+
+
+# ------------------------
+# AUTHENTICATION & LOGIN
+# ------------------------
+
+# Login using default API endpoint
 cf login
 
-#login using Web-browser
+# Login using a specific API endpoint
+cf login -a <api_endpoint>
+
+# Login using Single Sign-On (SSO) via browser
 cf login --sso
 
-#To see the current target
+# Logout from Cloud Foundry (ADDED – basic)
+cf logout
+
+
+# ---------------------------------------
+# TARGET, ORGANIZATION & SPACE MANAGEMENT
+# ---------------------------------------
+
+# View current target (API, org, space, user)
 cf target
 
-#To see the spaces
-cf spaces
-
-#To see the orginaztion
+# List all organizations
 cf orgs
 
-#To check the latest logs of failure deployment
-cf logs <app_name> --recent
+# List all spaces in the current organization
+cf spaces
 
-# First time push
+# Change the target organization and space
+cf target -o <ORG_NAME> -s <SPACE_NAME>
+
+# Create a new space under an organization
+cf create-space <SPACE_NAME> -o <ORG_NAME>
+
+# Delete a space forcefully
+cf delete-space <SPACE_NAME> -o <ORG_NAME> -f
+
+
+# ------------------------
+# APPLICATION DEPLOYMENT
+# ------------------------
+
+# First-time application push with explicit artifact path
+cf push <app_name> -p <path_to_artifact>
+
+# Example:
 cf push simple-rest-api-2 -p target/simple-rest-api-2
 
-#Push the application(mention the manifest file in code itself)
+# Push application using manifest.yml
 cf push
 
-#To see the apps information
-cf apps
-
-#To stop the app
-cf stop <app_name>
-
-#To start the app
-cf start <app_name>
-
-#To restart the app
-cf restart <app_name>
-
-#To delete the app
-cf delete <app_name>
-
-#To check the logs
-cf logs <app_name>
-
-#To see the routes
-cf routes
-
-#Map the app to different routes(exsting will be also there)
-cf map-route <app_name> <domain_name> --hostname <new_host_name>
-
-#To create the manifest file using cmd
+# Generate manifest.yml for an existing application
 cf create-app-manifest <app_name>
 
-#To see the droplets list
+# Assign a random (globally unique) route while pushing
+# (Original intent preserved – corrected syntax)
+cf push <app_name> --random-route
+
+
+# --------------------------------
+# APPLICATION LIFECYCLE MANAGEMENT
+# --------------------------------
+
+# List all applications in the current space
+cf apps
+
+# View detailed information about an app (ADDED – basic)
+cf app <app_name>
+
+# Start an application
+cf start <app_name>
+
+# Stop an application
+cf stop <app_name>
+
+# Restart an application
+cf restart <app_name>
+
+# Restage application (re-run buildpack without restart) (ADDED – basic)
+cf restage <app_name>
+
+# Delete an application
+cf delete <app_name>
+
+
+# ------------------------
+# LOGS & TROUBLESHOOTING
+# ------------------------
+
+# Stream live application logs
+cf logs <app_name>
+
+# View recent logs (useful after failed deployment)
+cf logs <app_name> --recent
+
+
+# ------------------------
+# ROUTES & NETWORKING
+# ------------------------
+
+# List all routes in the current space
+cf routes
+
+# Map an application to an additional route
+cf map-route <app_name> <domain_name> --hostname <new_host_name>
+
+# Unmap a route from an application (ADDED – basic)
+cf unmap-route <app_name> <domain_name> --hostname <host_name>
+
+
+# ------------------------
+# ENVIRONMENT VARIABLES
+# ------------------------
+
+# Set an environment variable for an application
+cf set-env <app_name> <ENV_VARIABLE_NAME> <value>
+
+# View environment variables of an app (ADDED – basic)
+cf env <app_name>
+
+# Restart application after setting environment variables
+cf restart <app_name>
+
+
+# ------------------------
+# SCALING APPLICATIONS
+# ------------------------
+
+# Scale application by number of instances
+cf scale <app_name> -i <number_of_instances>
+
+# Scale memory or disk (ADDED – basic)
+cf scale <app_name> -m 1024M
+cf scale <app_name> -k 1G
+
+
+# ------------------------
+# BUILD & DROPLETS
+# ------------------------
+
+# List droplets (build artifacts) for an application
 cf droplets <app_name>
 
-#To set env variable after that restart/restage the service
-cf set-env <app_name> <env_variable_name> <value>
 
-#To scale the instances
-cf scale <app_name> -i <scale_size>
+# ------------------------
+# SERVICE (BASIC – OPTIONAL BUT COMMON)
+# ------------------------
 
-#You can change the org and space you are using by
-cf target -o <THE_ORG> -s <THE_SPACE>
+# List marketplace services (ADDED – basic)
+cf marketplace
 
-#To  create the space   
-cf create-space SPACE_NAME -o <ORG_NAME>
+# List services in current space (ADDED – basic)
+cf services
 
-#To assing the uniquer route to application
-cf <app_name> --random-route
+# Bind a service to an application (ADDED – basic)
+cf bind-service <app_name> <service_name>
 
-#To delete the spaces
-cf delete-space <space_name> -o <ORG_NAME> -f
+# Unbind a service from an application (ADDED – basic)
+cf unbind-service <app_name> <service_name>
+
+
+# ------------------------
+# NOTES & BEST PRACTICES
+# ------------------------
+
+# Always verify org and space using `cf target`
+# Use --random-route for quick testing deployments
+# Prefer manifest.yml for repeatable deployments
+# Restart or restage app after env variable changes
+# Check `cf logs --recent` immediately after a failed push
+
+# ------------------------
+# END OF FILE
+# ------------------------
